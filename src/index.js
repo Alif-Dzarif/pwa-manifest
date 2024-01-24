@@ -1,5 +1,6 @@
-const popupBox = document.querySelector('.popup__box');
-const cancelButton = document.querySelector('.cancel__button');
+const popupBox = document.querySelector('.popup_box');
+const cancelButton = document.querySelector('.cancel_button');
+const installButton = document.querySelector('.install_button');
 
 
 const executeCodes = () => {
@@ -7,7 +8,7 @@ const executeCodes = () => {
 }
 
 window.addEventListener('load', () => {
-  setTimeout(executeCodes, 5000);
+  setTimeout(executeCodes, 2000);
 });
 
 cancelButton.addEventListener('click', () => {
@@ -15,7 +16,6 @@ cancelButton.addEventListener('click', () => {
 });
 
 
-const installButton = document.querySelector('.install__button');
 
 fetch('https://65addbab1dfbae409a737b66.mockapi.io/api/v1/products')
   .then(res => res.json())

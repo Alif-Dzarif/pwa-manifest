@@ -1,7 +1,7 @@
 {
 	"name": "Product List",
 	"short_name": "product list",
-	"start_url": ".",
+	"start_url": "/index.html",
   "description": "A product list app",
 	"display": "standalone",
 	"background_color": "#F0F8FF",

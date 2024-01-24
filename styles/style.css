@@ -13,7 +13,6 @@
 .wrapper {
   min-height: 100%;
   overflow-x: hidden;
-  padding: 5%;
 }
 
 .title {
@@ -40,7 +39,7 @@
 
 .container_child {
   /* max-width: 100dvw; */
-  max-width: 95%;
+  max-width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -50,8 +49,8 @@
 
 
 .card_box {
-  max-width: 350px;
-  background-color: white;
+  max-width: 300px;
+  background-color: rgba(187, 185, 185, 0.404);
   border-radius: 20px;
   padding: 5px;
 }
@@ -87,6 +86,73 @@
   border-radius: 30px;
   border: none;
   margin-bottom: 10px;
+}
+
+.popup_box {
+  position: fixed;
+  right: -390px;
+  margin-right: 1rem;
+  bottom: 4rem;
+  max-width: 300px;
+  background-color: rgba(255, 255, 255, 0.915);
+  padding: 2rem;
+  transition: right 0.5s ease;
+  border-radius: 10px
+}
+
+.popup_box.show {
+  right: 0px;
+}
+
+.popup_box header {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.popup_box header img {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.popup_box header p {
+  font-size: large;
+  font-weight: 700;
+}
+
+.popup_body p {
+  font-size: medium;
+  font-weight: 600;
+}
+
+.popup_action {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.popup_action button {
+  padding: 0.6rem 1rem;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: medium;
+  cursor: pointer;
+}
+
+.install_button {
+  background-color: rgb(102, 102, 255);
+}
+
+.install_button:active {
+  background-color: blue;
+}
+
+.cancel_button {
+  background-color: rgb(255, 102, 105);
+}
+
+.cancel_button:active {
+  background-color: red;
 }
 
 @media (min-width: 768px) {
