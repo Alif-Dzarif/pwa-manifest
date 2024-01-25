@@ -13,8 +13,17 @@
         <link rel="shortcut icon" href="/assets/shopping-bag.png" type="image/png">
         <title>Product App</title>
     </head>
-    <body>
+    <body class="body_scroll">
         <div class="container">
+            <div class="connection_notification online">
+                <p>CONNECTED TO NETWORK, REFRESH TO LOAD NEW DATA</p>
+                <button class="refresh">
+                    <span>REFRESH</span>
+                </button>
+            </div>
+            <div class="connection_notification offline">
+                <p>CURRENTLY DISCONNECTED FROM NETWORK</p>
+            </div>
             <div class="wrapper">
                 <h1 class="title">PRODUCT LIST</h1>
                 <div class="container_child" id="product__list"></div>
@@ -28,7 +37,10 @@
                     </div>
                     <div class="popup_action">
                         <button class="install_button">
-                            <span>Install This Page</span>
+                            <span class="install_text">Install This Page</span>
+                            <span class="loading_install">
+                                <img src="/assets/Pulse-1s-58px (1).gif">
+                            </span>
                         </button>
                         <button class="cancel_button">
                             <span>

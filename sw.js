@@ -1,8 +1,6 @@
 const staticCacheName = "site-static";
 
-const dynamicCacheName = "site-dynamic";
-
-const assets = [
+const preCache = [
   '/',
   '/index.html',
   '/pages/',
@@ -11,79 +9,46 @@ const assets = [
   '/styles/style.css',
   '/src/index.js',
   '/assets/shopping-bag.png',
-  'https://65addbab1dfbae409a737b66.mockapi.io/api/v1/products',
+  // 'https://65addbab1dfbae409a737b66.mockapi.io/api/v1/products',
   '/pages/fallback.html'
 ];
 
-const limitCacheSize = (name, size) => {
-  caches.open(name).then(cache => {
-    cache.keys().then(keys => {
-      if (keys.length > size) {
-        cache.delete(keys[2]).then(limitCacheSize(name, size));
+self.addEventListener('install', (e) => {
+  e.waitUntil((async () => {
+    const cache = await caches.open(staticCacheName)
+    cache.addAll(preCache)
+  })())
+});
+
+self.addEventListener('activate', function (event) {
+  event.waitUntil(self.clients.claim());
+});
+
+
+self.addEventListener('fetch', (e) => {
+  e.respondWith((async () => {
+    const cache = await caches.open(staticCacheName);
+    const resCache = await cache.match(e.request);
+
+    if (e.request.url.startsWith('http')) {
+      if (navigator.onLine) {
+        await cache.delete(e.request);
+        const res = await fetch(e.request);
+        cache.put(e.request, res.clone());
+        return res;
       }
-    })
-  })
-}
 
-self.addEventListener("online", evt => {
-  evt.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(keys
-        .filter(key => key !== staticCacheName && key !== dynamicCacheName)
-        .map(key => caches.delete(key))
-      )
-    })
-  );
-})
-
-
-self.addEventListener('install', evt => {
-  evt.waitUntil(
-    caches.open(dynamicCacheName).then(cache => {
-      cache.addAll(assets);
-    })
-  );
-});
-
-self.addEventListener('activate', evt => {
-  evt.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(keys
-        .filter(key => key !== staticCacheName && key !== dynamicCacheName)
-        .map(key => caches.delete(key))
-      )
-    })
-  );
-});
-
-self.addEventListener('fetch', evt => {
-  if (navigator.onLine) {
-    // User is online, fetch the latest data
-    evt.respondWith(
-      fetch(evt.request).then(fetchRes => {
-        return caches.open(dynamicCacheName).then(cache => {
-          cache.put(evt.request.url, fetchRes.clone());
-          limitCacheSize(dynamicCacheName, 2);
-          return fetchRes;
-        })
-      })
-    );
-  } else {
-    // User is offline, serve the cached data
-    evt.respondWith(
-      caches.match(evt.request).then(cacheRes => {
-        return cacheRes || fetch(evt.request).then(fetchRes => {
-          return caches.open(dynamicCacheName).then(cache => {
-            cache.put(evt.request.url, fetchRes.clone());
-            limitCacheSize(dynamicCacheName, 2);
-            return fetchRes;
-          })
-        });
-      }).catch(() => {
-        if (evt.request.url.indexOf('.html') > -1) {
-          return caches.match('/pages/fallback.html')
+      if (resCache) {
+        return resCache;
+      } else {
+        try {
+          const res = await fetch(e.request);
+          cache.put(e.request, res.clone());
+          return res;
+        } catch (error) {
+          console.log(error);
         }
-      })
-    );
-  }
+      }
+    }
+  })());
 });

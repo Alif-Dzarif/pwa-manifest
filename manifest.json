@@ -1,12 +1,13 @@
 {
 	"name": "Product List",
-	"short_name": "product list",
-	"start_url": "/index.html",
+	"short_name": "Product List",
+	"start_url": ".",
   "description": "A product list app",
 	"display": "standalone",
 	"background_color": "#F0F8FF",
 	"theme_color": "#F0F8FF",
 	"orientation": "portrait-primary",
+  "display_override": ["window-controls-overlay"],
 	"prefer_related_applications": true,
   "icons": [
     {
